@@ -6,39 +6,32 @@ var coffee = require('gulp-coffee');
 var uglify = require('gulp-uglify'),
     concat = require('gulp-concat');
 
-
-//log errors in terminal
-gulp.task('log', function() {
-  gutil.log('== My Log Task ==')
+gulp.task("sass", function() {
+  return gulp
+    .src("./styles/main.scss")
+    .pipe(sass({ outputStyle: "compressed" }))
+    .pipe(gulp.dest("./assets"));
 });
 
-gulp.task('sass', function() {
-  gulp.src('styles/main.scss')
-  .pipe(sass({style: 'expanded'}))
-    .on('error', gutil.log)
-  .pipe(gulp.dest('assets'))
-});
-
-gulp.task('coffee', function() {
-  gulp.src('js/hello.coffee')
-  .pipe(coffee({bare: true})
-    .on('error', gutil.log))
-  .pipe(gulp.dest('js'))
+gulp.task("coffee", function() {
+  return gulp.src("js/hello.coffee")
+  .pipe(coffee({bare: true}))
+  .pipe(gulp.dest("js"));
 });
 
 //js compilers
-gulp.task('js', function() {
-  gulp.src('js/*.js')
+gulp.task("js", function() {
+  return gulp.src("js/*.js")
   .pipe(uglify())
-  .pipe(concat('script.js'))
-  .pipe(gulp.dest('assets'))
+  .pipe(concat("script.js"))
+  .pipe(gulp.dest("assets"));
 });
 
-gulp.task('default', ['coffee', 'js']);
+// gulp.task('default', ['coffee', 'js']);
 
-//watch and auto-compile **ERROR HERE**
-gulp.task('run watch', function() {
-  gulp.watch('js/hello.coffee', ['coffee']);
-  gulp.watch('js/*.js', ['js']);
-  gulp.watch('styles/main.scss', ['sass']);
-});
+// //watch and auto-compile **ERROR HERE**
+// gulp.task("watch", function() {
+//   gulp.watch("js/hello.coffee", ["coffee"]);
+//   gulp.watch("js/*.js", ["js"]);
+//   gulp.watch("styles/main.scss", ["sass"]);
+// });
